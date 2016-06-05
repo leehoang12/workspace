@@ -1,0 +1,22 @@
+# MPLAB IDE generated this makefile for use with GNU make.
+# Project: USBDemoBoard.mcp
+# Date: Sun Jun 05 17:14:29 2016
+
+AS = MPASMWIN.exe
+CC = mcc18.exe
+LD = mplink.exe
+AR = mplib.exe
+RM = rm
+
+USBDemoBoard.cof : USBDemoBoard.o USBFunctions.o
+	$(LD) /p18F4550 /l"C:\Program Files (x86)\Microchip\mplabc18\v3.42\lib" "USBFunctions.lkr" "USBDemoBoard.o" "USBFunctions.o" /u_CRUNTIME /u_DEBUG /z__MPLAB_BUILD=1 /z__MPLAB_DEBUG=1 /o"USBDemoBoard.cof" /M"USBDemoBoard.map" /W
+
+USBDemoBoard.o : USBDemoBoard.c USBFunctions.h C:/Program\ Files\ (x86)/Microchip/mplabc18/v3.47/h/adc.h USBDemoBoard.c C:/Program\ Files\ (x86)/Microchip/mplabc18/v3.47/h/p18f4550.h C:/Program\ Files\ (x86)/Microchip/mplabc18/v3.47/h/pconfig.h C:/Program\ Files\ (x86)/Microchip/mplabc18/v3.47/h/p18cxxx.h
+	$(CC) -p=18F4550 "USBDemoBoard.c" -fo="USBDemoBoard.o" -D__DEBUG -Ou- -Ot- -Ob- -Op- -Or- -Od- -Opa-
+
+USBFunctions.o : USBFunctions.c C:/Program\ Files\ (x86)/Microchip/mplabc18/v3.47/h/stdio.h C:/Program\ Files\ (x86)/Microchip/mplabc18/v3.47/h/stdlib.h C:/Program\ Files\ (x86)/Microchip/mplabc18/v3.47/h/string.h USBFunctions.h USBFunctions.c C:/Program\ Files\ (x86)/Microchip/mplabc18/v3.47/h/p18f4550.h C:/Program\ Files\ (x86)/Microchip/mplabc18/v3.47/h/stdarg.h C:/Program\ Files\ (x86)/Microchip/mplabc18/v3.47/h/stddef.h C:/Program\ Files\ (x86)/Microchip/mplabc18/v3.47/h/limits.h
+	$(CC) -p=18F4550 "USBFunctions.c" -fo="USBFunctions.o" -D__DEBUG -Ou- -Ot- -Ob- -Op- -Or- -Od- -Opa-
+
+clean : 
+	$(RM) "USBDemoBoard.o" "USBFunctions.o" "USBDemoBoard.cof" "USBDemoBoard.hex"
+

@@ -52,6 +52,7 @@
             this.label9 = new System.Windows.Forms.Label();
             this.labelStartTime = new System.Windows.Forms.Label();
             this.labelStopTime = new System.Windows.Forms.Label();
+            this.LabelSaveDir = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
@@ -241,11 +242,21 @@
             this.labelStopTime.TabIndex = 25;
             this.labelStopTime.Text = "MM/DD/YYYY H:M:S";
             // 
+            // LabelSaveDir
+            // 
+            this.LabelSaveDir.AutoSize = true;
+            this.LabelSaveDir.Location = new System.Drawing.Point(24, 401);
+            this.LabelSaveDir.Name = "LabelSaveDir";
+            this.LabelSaveDir.Size = new System.Drawing.Size(47, 13);
+            this.LabelSaveDir.TabIndex = 26;
+            this.LabelSaveDir.Text = "Desktop";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(532, 418);
+            this.ClientSize = new System.Drawing.Size(537, 423);
+            this.Controls.Add(this.LabelSaveDir);
             this.Controls.Add(this.labelStopTime);
             this.Controls.Add(this.labelStartTime);
             this.Controls.Add(this.label9);
@@ -301,6 +312,7 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label labelStartTime;
         private System.Windows.Forms.Label labelStopTime;
+        private System.Windows.Forms.Label LabelSaveDir;
 	}
 }
 

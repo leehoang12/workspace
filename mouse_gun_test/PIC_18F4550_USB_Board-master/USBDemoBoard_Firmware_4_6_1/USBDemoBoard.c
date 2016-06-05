@@ -1,10 +1,9 @@
-// USBDemoBoard.c
+	// USBDemoBoard.c
 
 // includes ///////////////////////////////////////////////////////////////////////////////////////
 #include<p18f4550.h>
 #include"USBFunctions.h"
-#include <adc.h>
-
+#include "mpu6050.h"
 // chip config ////////////////////////////////////////////////////////////////////////////////////
 					// clock options, see 18F4550 data sheet figure 2-1 "clock diagram" for explanation
 #pragma config PLLDIV = 5				// 20 MHz external clock / PLL prescaler value of 5 = 4 MHz required input to PLL circuit
@@ -80,23 +79,17 @@
 #define START_TIME 	0x01
 #define STOP_TIME	0x02
 
-#define VDC_150_STATE		PORTBbits.RB3		// config VDC state
-#define VDC_600_STATE		PORTBbits.RB4
-#define VDC_990_STATE		PORTBbits.RB5
-#define VDC_1120_STATE		PORTBbits.RB6
-#define VDC_150				(VDC_150_STATE && !VDC_600_STATE && !VDC_990_STATE && !VDC_1120_STATE)
-#define VDC_600				(!VDC_150_STATE && VDC_600_STATE && !VDC_990_STATE && !VDC_1120_STATE)
-#define VDC_990				(!VDC_150_STATE && !VDC_600_STATE && VDC_990_STATE && !VDC_1120_STATE)
-#define VDC_1120			(!VDC_150_STATE && !VDC_600_STATE && !VDC_990_STATE && VDC_1120_STATE)
-
-#define CHANNEL_CAP1	ADC_CH0
-#define CHANNEL_CAP2	ADC_CH1
-
+#define MPU6050_ADDRESS 0x68
+#define MPU6050_RA_WHO_AM_I 0x75
 
 // global variables ///////////////////////////////////////////////////////////////////////////////
 extern BYTE g_USBDeviceState;
 extern BYTE g_fromHostToDeviceBuffer[65];
 extern BYTE g_fromDeviceToHostBuffer[65];
+
+ unsigned char verificacion = 0x0;
+	
+// function prototypes ////////////////////////////////////////////////////////////////////////////
 void highISR(void);							// interrupt prototypes
 void remappedHighISR(void);					//
 void yourHighPriorityISRCode(void);			//
@@ -127,8 +120,11 @@ void remappedHighISR(void) {
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma interrupt yourHighPriorityISRCode
 void yourHighPriorityISRCode(void) {
-	LED3 = ~LED3;
-}
+	// check which int flag is set
+	// service int
+	// clear flag
+	// etc.
+} // return will be a "retfie fast"
 #pragma code
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -167,48 +163,38 @@ void main(void) {
 	USBInit();				// in USBFunctions.c
 	yourInit();				// in this file
 	while(1) {
+		LED3 = 1;						// init output pins to off
+		LED2 = 1;
+		LED1 = 1;
 		USBTasks();			// in USBFunctions.c
 		yourTasks();		// in this file
 	}
 }
 
+ unsigned int LDByteReadI2C(unsigned char ControlByte, unsigned char Address, unsigned char *Data, unsigned char Length)  
+ {     
+	unsigned int error = 0;     
+	IdleI2C();                                  //wait for bus Idle     
+	StartI2C();                                 //Generate Start Condition     
+	WriteI2C(ControlByte | 0x00);               //Write Control Byte     
+	IdleI2C();                                  //wait for bus Idle     
+	WriteI2C(Address);                          //Write start address     
+	IdleI2C();                                  //wait for bus Idle  
+	RestartI2C();                               //Generate restart condition     
+	WriteI2C(ControlByte | 0x01);               //Write control byte for read     
+	IdleI2C();                                  //wait for bus Idle  
+	error = getsI2C(Data, Length);                      //read Length number of bytes     
+	NotAckI2C();                                //Send Not Ack     
+	StopI2C();                                  //Generate Stop     
+	return error;  
+ }  
+   
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-
-int detect_vdc(){
-	if (VDC_150)
-		return 150;
-	else{
-		if (VDC_600)
-			return 600;
-		else {
-			if (VDC_990)
-				return 990;
-			else{
-				if (VDC_1120)
-					return 1120;
-			}
-		}
-	}
-	
-	return -1;
-}
-
 void yourInit(void) {
-	// initialization code specific to your board goes here
-	// (TRIS registers, ADCON registers, setting up interrupt / timer registers, etc.)
 	
-	ADCON1bits.PCFG3 = 1;			// set all AN pins to digital I/O
-	ADCON1bits.PCFG2 = 1;			//
-	ADCON1bits.PCFG1 = 1;			//
-	ADCON1bits.PCFG0 = 1;			//
-									
-	TRISBbits.RB1 = 1;				// Start button
-	TRISBbits.RB2 = 1;				// Stop button
-
-	TRISBbits.RB3 = 1;
-	TRISBbits.RB4 = 1;
-	TRISBbits.RB5 = 1;
-	TRISBbits.RB6 = 1;
+	TRISBbits.RB0 = 1;				// config input pin SDA
+	TRISBbits.RB1 = 1;				// config input pin SCL	
 	
 	TRISDbits.TRISD3 = 0;			// set RD3 to output
 	TRISDbits.TRISD2 = 0;			// set RD2 to output
@@ -217,50 +203,51 @@ void yourInit(void) {
 	LED3 = 0;						// init output pins to off
 	LED2 = 0;
 	LED1 = 0;
-
-
-   /*ADC int */
-	TRISA = 0xFF;		
-	PIR1bits.ADIF = 0; // clear ADIF (ADC flag interrup)
-	PIE1bits.ADIE = 1; // Enable interrup ADC
-	INTCONbits.GIE = 1; // enable all interrupt
-
-	OpenADC( ADC_FOSC_16 & ADC_RIGHT_JUST & ADC_16_TAD ,
-	ADC_VREFPLUS_EXT & ADC_VREFMINUS_EXT & ADC_CH0 & ADC_INT_OFF , 0x0d);
+	
+	OpenI2C(MASTER, SLEW_OFF);		
+	//Mpu6050_Init();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 void yourTasks(void) {
-	int ret;
-
+	int x;
+	x = LED3;
+	//LDByteReadI2C(MPU6050_ADDRESS, MPU6050_RA_WHO_AM_I, &verificacion, 1);
+	LED3 = 1-x;
 	if(g_USBDeviceState == CONFIGURED_STATE) {
 		
-		receiveViaUSB();
-
-		g_fromDeviceToHostBuffer[1] = (START_BUTTON<<1) | (STOP_BUTTON<<2);		// Start/Stop buuton
-		ret = detect_vdc();
-		if (ret<0){
-			g_fromDeviceToHostBuffer[2] = 0;
-			g_fromDeviceToHostBuffer[3] = 0;
+		receiveViaUSB();									// read into input buffer
+		
+															// process inputs here (check g_fromHostToDeviceBuffer[x])
+		if(g_fromHostToDeviceBuffer[1] == LED1_ON) {
+			LED1 = 1;
+		} else if(g_fromHostToDeviceBuffer[1] == LED1_OFF) {
+			LED1 = 0;
 		} else {
-			g_fromDeviceToHostBuffer[2] = (ret >> 8) & 0xFF;		// 8 bits hight of VDC
-			g_fromDeviceToHostBuffer[3] =  ret & 0xFF;				// 8 buts low of VDC
+			// should never get here
+		}
+		
+		if(g_fromHostToDeviceBuffer[2] == LED2_ON) {
+			LED2 = 1;
+		} else if(g_fromHostToDeviceBuffer[2] == LED2_OFF) {
+			LED2 = 0;
+		} else {
+			// should never get here
+		}
+		
+		if(g_fromHostToDeviceBuffer[3] == LED3_ON) {
+			LED3 = 1;
+		} else if(g_fromHostToDeviceBuffer[3] == LED3_OFF) {
+			LED3 = 0;
+		} else {
+			// should never get here
 		}
 
-		SetChanADC(CHANNEL_CAP1);					// read data cap 1
-		ConvertADC();
-		while(BusyADC());							//Wait ADC
-			ret = ReadADC();						//Get A/D data	
-		g_fromDeviceToHostBuffer[4] = (ret >> 8) & 0xFF;		// 8 bits hight of value CAP 1
-		g_fromDeviceToHostBuffer[5] =  ret & 0xFF;				// 8 buts low of value CAP 1
 		
-		SetChanADC(CHANNEL_CAP2);					// read data cap 1
-		ConvertADC();
-		while(BusyADC());							//Wait ADC
-			ret = ReadADC();						//Get A/D data
-		g_fromDeviceToHostBuffer[6] = (ret >> 8) & 0xFF;		// 8 bits hight of value CAP 1
-		g_fromDeviceToHostBuffer[7] =  ret & 0xFF;				// 8 buts low of value CAP 2	
-
+		g_fromDeviceToHostBuffer[1] = verificacion;
+		
+		g_fromDeviceToHostBuffer[3] = 10;
 		sendViaUSB();
-	}
+	}		
+
 }

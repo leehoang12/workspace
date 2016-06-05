@@ -1,1 +1,1 @@
-Warning[2060] C:\Program Files (x86)\Microchip\mplabc18\v3.47\h\lcd.h 42 : shift expression has no effect
+Warning[2058] G:\workspace\workspace\Do tu dien\PIC_18F4550_USB_Board-master\USBDemoBoard_Firmware_4_6_1\USBDemoBoard.c 241 : call of function without prototype

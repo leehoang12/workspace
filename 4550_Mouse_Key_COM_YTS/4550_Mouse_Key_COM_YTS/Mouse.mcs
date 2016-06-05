@@ -2,7 +2,7 @@
 MagicCookie={0b13fe8c-dfe0-40eb-8900-6712719559a7}
 Version=1.0
 [File000]
-Location=G:\workspace\4550_Mouse_Key_COM_YTS\4550_Mouse_Key_COM_YTS\Objects\usb_descriptors.o
+Location=G:\workspace\workspace\4550_Mouse_Key_COM_YTS\4550_Mouse_Key_COM_YTS\Objects\usb_descriptors.o
 Folder=Intermediary
 DeviceName=PIC18F4550
 LanguageToolSuiteID={5B7D72DD-9861-47BD-9F60-2BE967BF8416}
@@ -15,7 +15,7 @@ ToolArgsString=-Ou- -Ot- -Ob- -Op- -Or- -Od- -Opa-
 TraceCmdString=
 DebugOptions=
 [File001]
-Location=G:\workspace\4550_Mouse_Key_COM_YTS\4550_Mouse_Key_COM_YTS\Objects\mouse.o
+Location=G:\workspace\workspace\4550_Mouse_Key_COM_YTS\4550_Mouse_Key_COM_YTS\Objects\mouse.o
 Folder=Intermediary
 DeviceName=PIC18F4550
 LanguageToolSuiteID={5B7D72DD-9861-47BD-9F60-2BE967BF8416}
@@ -28,7 +28,7 @@ ToolArgsString=-Ou- -Ot- -Ob- -Op- -Or- -Od- -Opa-
 TraceCmdString=
 DebugOptions=
 [File002]
-Location=G:\workspace\4550_Mouse_Key_COM_YTS\4550_Mouse_Key_COM_YTS\Objects\usb_device.o
+Location=G:\workspace\workspace\4550_Mouse_Key_COM_YTS\4550_Mouse_Key_COM_YTS\Objects\usb_device.o
 Folder=Intermediary
 DeviceName=PIC18F4550
 LanguageToolSuiteID={5B7D72DD-9861-47BD-9F60-2BE967BF8416}
@@ -41,7 +41,7 @@ ToolArgsString=-Ou- -Ot- -Ob- -Op- -Or- -Od- -Opa-
 TraceCmdString=
 DebugOptions=
 [File003]
-Location=G:\workspace\4550_Mouse_Key_COM_YTS\4550_Mouse_Key_COM_YTS\Objects\usb_function_hid.o
+Location=G:\workspace\workspace\4550_Mouse_Key_COM_YTS\4550_Mouse_Key_COM_YTS\Objects\usb_function_hid.o
 Folder=Intermediary
 DeviceName=PIC18F4550
 LanguageToolSuiteID={5B7D72DD-9861-47BD-9F60-2BE967BF8416}
@@ -54,7 +54,7 @@ ToolArgsString=-Ou- -Ot- -Ob- -Op- -Or- -Od- -Opa-
 TraceCmdString=
 DebugOptions=
 [File004]
-Location=G:\workspace\4550_Mouse_Key_COM_YTS\4550_Mouse_Key_COM_YTS\Mouse.cof
+Location=G:\workspace\workspace\4550_Mouse_Key_COM_YTS\4550_Mouse_Key_COM_YTS\Mouse.cof
 Folder=Output
 DeviceName=PIC18F4550
 LanguageToolSuiteID={5B7D72DD-9861-47BD-9F60-2BE967BF8416}
@@ -67,7 +67,7 @@ ToolArgsString=/m"$(BINDIR_)$(TARGETBASE).map" /w /o"$(TARGETBASE).cof"
 TraceCmdString=
 DebugOptions=
 [File005]
-Location=G:\workspace\4550_Mouse_Key_COM_YTS\4550_Mouse_Key_COM_YTS\Mouse.hex
+Location=G:\workspace\workspace\4550_Mouse_Key_COM_YTS\4550_Mouse_Key_COM_YTS\Mouse.hex
 Folder=Output
 DeviceName=PIC18F4550
 LanguageToolSuiteID={5B7D72DD-9861-47BD-9F60-2BE967BF8416}
@@ -80,7 +80,7 @@ ToolArgsString=/m"$(BINDIR_)$(TARGETBASE).map" /w /o"$(TARGETBASE).cof"
 TraceCmdString=
 DebugOptions=
 [File006]
-Location=G:\workspace\4550_Mouse_Key_COM_YTS\4550_Mouse_Key_COM_YTS\Mouse.map
+Location=G:\workspace\workspace\4550_Mouse_Key_COM_YTS\4550_Mouse_Key_COM_YTS\Mouse.map
 Folder=Output
 DeviceName=PIC18F4550
 LanguageToolSuiteID={5B7D72DD-9861-47BD-9F60-2BE967BF8416}
