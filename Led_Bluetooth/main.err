@@ -1,0 +1,4 @@
+Warning[2060] G:\workspace\workspace\Led_Bluetooth\lcd1.h 42 : shift expression has no effect
+Warning[2058] G:\workspace\workspace\Led_Bluetooth\main.c 205 : call of function without prototype
+Warning[2058] G:\workspace\workspace\Led_Bluetooth\main.c 206 : call of function without prototype
+Warning[2066] G:\workspace\workspace\Led_Bluetooth\main.c 296 : type qualifier mismatch in assignment
